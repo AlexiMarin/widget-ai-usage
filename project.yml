@@ -1,0 +1,56 @@
+name: AIUsage
+options:
+  bundleIdPrefix: com.aiusage
+  deploymentTarget:
+    macOS: "15.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    DEVELOPMENT_TEAM: ${TEAM_ID}
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGN_IDENTITY: "Apple Development"
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    ENABLE_HARDENED_RUNTIME: YES
+targets:
+  AIUsage:
+    type: application
+    platform: macOS
+    sources: [App, Shared]
+    info:
+      path: App/Info.plist
+      properties:
+        LSUIElement: true
+        CFBundleDisplayName: AI Usage
+        AppGroup: $(TeamIdentifierPrefix)com.aiusage
+    entitlements:
+      path: App/AIUsage.entitlements
+      properties:
+        com.apple.security.application-groups: [$(TeamIdentifierPrefix)com.aiusage]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.aiusage
+    dependencies:
+      - target: AIUsageWidget
+        embed: true
+  AIUsageWidget:
+    type: app-extension
+    platform: macOS
+    sources: [Widget, Shared]
+    info:
+      path: Widget/Info.plist
+      properties:
+        CFBundleDisplayName: AI Usage
+        AppGroup: $(TeamIdentifierPrefix)com.aiusage
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    entitlements:
+      path: Widget/AIUsageWidget.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.application-groups: [$(TeamIdentifierPrefix)com.aiusage]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.aiusage.widget
+        SKIP_INSTALL: YES

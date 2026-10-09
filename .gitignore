@@ -1,0 +1,7 @@
+build/
+AIUsage.xcodeproj/
+App/Info.plist
+App/AIUsage.entitlements
+Widget/Info.plist
+Widget/AIUsageWidget.entitlements
+.DS_Store
