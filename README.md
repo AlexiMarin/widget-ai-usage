@@ -1,97 +1,99 @@
+[Español](README.es.md) · **English**
+
 # AI Usage
 
-Widget de escritorio para macOS que muestra el uso de tu suscripción de Claude (sesión de 5 h, semanal y Opus/Sonnet) en anillos, al estilo del widget de Baterías. OpenAI llegará en una fase 2.
+A macOS desktop widget that shows your Claude subscription usage (5-hour session, weekly, and Opus/Sonnet) as rings, in the style of the Batteries widget. OpenAI support is planned for phase 2.
 
 <p align="center">
-  <img src="docs/images/widget-medium-dark.png" width="440" alt="Widget mediano en modo oscuro: sesión 38 %, semana 71 %, Opus 92 %">
+  <img src="docs/images/widget-medium-dark.png" width="440" alt="Medium widget in dark mode: session 38%, week 71%, Opus 92%">
 </p>
 
-> Las imágenes usan datos de ejemplo.
+> The screenshots use sample data. The app's interface is in Spanish.
 
-## Qué muestra
+## What it shows
 
-| Anillo | Significado |
+| Ring | Meaning |
 |---|---|
-| 🕐 **Sesión** | Límite de la ventana de 5 horas |
-| 📅 **Semana** | Límite semanal de todos los modelos |
-| ✨ **Opus / Sonnet** | Límite semanal específico del modelo (vacío si tu plan no lo tiene) |
-| ◯ | Reservado para OpenAI (fase 2) |
+|  **Sesión** (Session) | 5-hour window limit |
+|  **Semana** (Week) | Weekly limit across all models |
+|  **Opus / Sonnet** | Model-specific weekly limit (empty if your plan doesn't have one) |
+|  | Reserved for OpenAI |
 
-El color cambia según el uso: **verde** por debajo del 60 %, **amarillo** hasta el 85 % y **rojo** a partir de ahí. Debajo de cada anillo se indica cuánto falta para que se reinicie.
-
-<p align="center">
-  <img src="docs/images/widget-medium-light.png" width="440" alt="Widget mediano en modo claro">
-  <img src="docs/images/widget-small-dark.png" width="250" alt="Widget pequeño con sesión y semana">
-</p>
-
-Hay dos tamaños: **mediano** (4 anillos) y **pequeño** (sesión y semana). Ambos se adaptan al modo claro y al oscuro.
-
-### Barra de menú
-
-Una app pequeña en la barra de menú muestra el % de la sesión, actualiza los datos cada 5 minutos y alimenta el widget.
+The color changes with usage: **green** below 60%, **yellow** up to 85%, and **red** above that. Below each ring you'll see how long until it resets.
 
 <p align="center">
-  <img src="docs/images/menu.png" width="300" alt="Menú con el detalle de uso, Actualizar, Abrir al iniciar sesión y Salir">
+  <img src="docs/images/widget-medium-light.png" width="440" alt="Medium widget in light mode">
+  <img src="docs/images/widget-small-dark.png" width="250" alt="Small widget with session and week">
 </p>
 
-### Avisos
+There are two sizes: **medium** (4 rings) and **small** (session and week). Both adapt to light and dark mode.
 
-Si la sesión de Claude Code caduca, o la app lleva más de 30 minutos sin actualizar, el widget mantiene los últimos datos y muestra un aviso en naranja.
+### Menu bar
+
+A small menu bar app shows the session %, refreshes the data every 5 minutes, and feeds the widget.
 
 <p align="center">
-  <img src="docs/images/widget-expired.png" width="440" alt="Widget con el aviso 'Token expirado — abre Claude Code'">
+  <img src="docs/images/menu.png" width="300" alt="Menu with usage details, Refresh, Open at login and Quit">
 </p>
 
-## Requisitos
+### Warnings
 
-- macOS 15 o posterior
-- **Xcode** completo (App Store), no solo las Command Line Tools. Ábrelo una vez para aceptar la licencia.
+If your Claude Code session expires, or the app hasn't refreshed in more than 30 minutes, the widget keeps the last data and shows an orange warning.
+
+<p align="center">
+  <img src="docs/images/widget-expired.png" width="440" alt="Widget with the warning 'Token expirado — abre Claude Code' (Token expired — open Claude Code)">
+</p>
+
+## Requirements
+
+- macOS 15 or later
+- Full **Xcode** (App Store), not just the Command Line Tools. Open it once to accept the license.
 - **XcodeGen**: `brew install xcodegen`
-- **Certificado "Apple Development"**. Sirve una cuenta Apple gratuita:
-  Xcode → Settings → Accounts → `+` → Apple ID → selecciona el equipo → *Manage Certificates…* → `+` → *Apple Development*.
-- **Claude Code** instalado y con sesión iniciada (`claude`). El widget lee esa sesión del Keychain.
+- An **"Apple Development" certificate**. A free Apple account works:
+  Xcode → Settings → Accounts → `+` → Apple ID → select the team → *Manage Certificates…* → `+` → *Apple Development*.
+- **Claude Code** installed and signed in (`claude`). The widget reads that session from the Keychain.
 
-## Instalar
+## Install
 
 ```sh
-git clone <este repo>
+git clone <this repo>
 cd widget-ai-usage
 make install
 ```
 
-Esto genera el proyecto, compila con tu certificado e instala `AIUsage.app` en `~/Applications`. Después:
+This generates the project, builds it with your certificate, and installs `AIUsage.app` in `~/Applications`. Then:
 
-1. Debe aparecer `✳︎ N%` en la barra de menú. En el menú, activa **Abrir al iniciar sesión**.
-2. Clic derecho en el escritorio → **Editar widgets** → busca **AI Usage**.
+1. `✳︎ N%` should appear in the menu bar. In the menu, turn on **Abrir al iniciar sesión** (Open at login).
+2. Right-click the desktop → **Edit Widgets** → search for **AI Usage**.
 
-`make check` comprueba solo los requisitos. Si tienes varios certificados de distintos equipos, elige uno con `make install TEAM_ID=XXXXXXXXXX`.
+`make check` only checks the requirements. If you have several certificates from different teams, pick one with `make install TEAM_ID=XXXXXXXXXX`.
 
-### Abrir la app de nuevo
+### Reopening the app
 
-Si la cierras, el widget deja de actualizarse. Para volver a abrirla: `⌘ Espacio` → **AI Usage**, o `open ~/Applications/AIUsage.app`.
+If you quit it, the widget stops updating. To open it again: `⌘ Space` → **AI Usage**, or `open ~/Applications/AIUsage.app`.
 
-### Desinstalar
+### Uninstall
 
-1. En el menú, desactiva **Abrir al iniciar sesión** y pulsa **Salir**.
-2. Quita el widget del escritorio.
-3. Borra la app: `rm -rf ~/Applications/AIUsage.app`
+1. In the menu, turn off **Abrir al iniciar sesión** (Open at login) and click **Salir** (Quit).
+2. Remove the widget from the desktop.
+3. Delete the app: `rm -rf ~/Applications/AIUsage.app`
 
-## Cómo funciona
+## How it works
 
 ```
-Keychain (sesión de Claude Code)
-        │  cada 5 min
+Keychain (Claude Code session)
+        │  every 5 min
         ▼
-AIUsage.app (barra de menú) ──► api.anthropic.com/api/oauth/usage
+AIUsage.app (menu bar) ──► api.anthropic.com/api/oauth/usage
         │
-        ▼  snapshot.json (solo %, fechas y plan)
-App Group compartido
+        ▼  snapshot.json (only %, dates and plan)
+Shared App Group
         │
         ▼
-Widget (sandbox, sin red)
+Widget (sandboxed, no network)
 ```
 
-- La app de la barra de menú lee la sesión de Claude Code (`Claude Code-credentials` en el Keychain), consulta el uso y deja el resultado en un App Group compartido con el widget.
-- El token solo se guarda en memoria y solo se envía a `api.anthropic.com` por HTTPS. No se escribe en disco ni en logs.
-- La app **nunca renueva la sesión** (eso cerraría tu sesión de Claude Code). Si caduca, se arregla sola al volver a usar Claude Code.
-- Es el mismo endpoint que usa `/usage` en Claude Code. No está documentado y podría cambiar.
+- The menu bar app reads the Claude Code session (`Claude Code-credentials` in the Keychain), fetches usage, and writes the result to an App Group shared with the widget.
+- The token is kept only in memory and is sent only to `api.anthropic.com` over HTTPS. It is never written to disk or logs.
+- The app **never refreshes the session** (that would sign you out of Claude Code). If it expires, it fixes itself the next time you use Claude Code.
+- It's the same endpoint that `/usage` uses in Claude Code. It's undocumented and could change.
