@@ -33,7 +33,7 @@ struct AIUsageWidgetView: View {
 
     var body: some View {
         VStack(spacing: 4) {
-            HStack(alignment: .top, spacing: family == .systemSmall ? 10 : 14) {
+            HStack(alignment: .top, spacing: 17) {
                 MeterColumn(meter: meter("five_hour"), placeholderSymbol: "clock")
                 MeterColumn(meter: meter("seven_day"), placeholderSymbol: "calendar")
                 if family != .systemSmall {
@@ -69,6 +69,8 @@ struct AIUsageWidget: Widget {
         }
         .configurationDisplayName("AI Usage")
         .description("Uso de tu suscripción de Claude.")
+        // Batteries-size rings don't fit two-up inside the default small-widget margins.
+        .contentMarginsDisabled()
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }

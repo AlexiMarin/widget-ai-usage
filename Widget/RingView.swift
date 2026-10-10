@@ -15,7 +15,7 @@ extension UsageLevel {
 struct RingView: View {
     var percent: Double?
     var symbol: String?
-    var lineWidth: CGFloat = 7
+    var lineWidth: CGFloat = 6
 
     var body: some View {
         ZStack {
@@ -30,7 +30,7 @@ struct RingView: View {
             }
             if let symbol {
                 Image(systemName: symbol)
-                    .font(.system(size: 18, weight: .medium))
+                    .font(.system(size: 24, weight: .regular))
                     .foregroundStyle(.secondary)
             }
         }
@@ -38,33 +38,19 @@ struct RingView: View {
     }
 }
 
-/// Ring + percentage + caption, one column of the widget.
+/// Ring + percentage, one column of the widget (Batteries proportions).
 struct MeterColumn: View {
     var meter: UsageMeter?
     var placeholderSymbol: String? = nil
 
     var body: some View {
-        VStack(spacing: 6) {
+        VStack(spacing: 12) {
             RingView(percent: meter?.percent, symbol: meter?.percent != nil ? meter?.symbol : placeholderSymbol)
-                .aspectRatio(1, contentMode: .fit)
-            if let m = meter, let p = m.percent {
-                Text("\(Int(p.rounded()))%")
-                    .font(.system(size: 15, weight: .medium))
-                    .contentTransition(.numericText())
-                Text(caption(m))
-                    .font(.system(size: 10))
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-            } else {
-                Text(" ").font(.system(size: 15))
-                Text(" ").font(.system(size: 10))
-            }
+                .frame(width: 64, height: 64)
+            Text(meter?.percent.map { "\(Int($0.rounded()))%" } ?? " ")
+                .font(.system(size: 18))
+                .contentTransition(.numericText())
         }
-        .frame(maxWidth: .infinity)
-    }
-
-    private func caption(_ m: UsageMeter) -> String {
-        guard let r = m.resetsAt else { return m.label }
-        return "\(m.label) · \(r.compactUntil())"
+        .padding(.top, 4)
     }
 }
