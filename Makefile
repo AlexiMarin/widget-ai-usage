@@ -6,7 +6,7 @@ TEAM_ID ?= $(shell security find-certificate -c "Apple Development" -p 2>/dev/nu
 	| openssl x509 -noout -subject 2>/dev/null | sed -n 's/.*OU *= *\([A-Z0-9]*\).*/\1/p')
 export TEAM_ID
 
-.PHONY: check gen build run install clean
+.PHONY: check gen build run install release clean
 
 check:
 	@xcodebuild -version >/dev/null 2>&1 || { echo "✗ Falta Xcode completo (App Store) y: sudo xcode-select -s /Applications/Xcode.app"; exit 1; }
@@ -31,6 +31,9 @@ install: build
 	@echo "✓ Instalado. Añade el widget: clic derecho en el escritorio → Editar widgets → AI Usage"
 
 run: install
+
+release:
+	./scripts/release.sh
 
 clean:
 	rm -rf build AIUsage.xcodeproj
