@@ -2,10 +2,10 @@
 
 # AI Usage
 
-Widget de escritorio para macOS que muestra el uso de tu suscripción de Claude (sesión de 5 h, semanal y Opus/Sonnet) en anillos, al estilo del widget de Baterías. OpenAI llegará en una fase 2.
+Widget de escritorio para macOS que muestra el uso de tu suscripción de Claude (sesión de 5 h y semanal) en anillos, al estilo del widget de Baterías. Cada widget muestra un proveedor, que eliges en los ajustes del widget. OpenAI llegará en una fase 2.
 
 <p align="center">
-  <img src="docs/images/widget-medium-dark.png" width="440" alt="Widget mediano en modo oscuro: sesión 38 %, semana 71 %, Opus 92 %">
+  <img src="docs/images/widget-medium-dark.png" width="440" alt="Widget mediano en modo oscuro: sesión 38 %, semana 71 %">
 </p>
 
 > Las imágenes usan datos de ejemplo.
@@ -16,17 +16,25 @@ Widget de escritorio para macOS que muestra el uso de tu suscripción de Claude 
 |---|---|
 |  **Sesión** | Límite de la ventana de 5 horas |
 |  **Semana** | Límite semanal de todos los modelos |
-|  **Opus / Sonnet** | Límite semanal específico del modelo (vacío si tu plan no lo tiene) |
-|  | Reservado para OpenAI |
+|  |  |
 
-El color cambia según el uso: **verde** por debajo del 60 %, **amarillo** hasta el 85 % y **rojo** a partir de ahí. Debajo de cada anillo se indica cuánto falta para que se reinicie.
+El color cambia según el uso: **verde** por debajo del 60 %, **amarillo** hasta el 85 % y **rojo** a partir de ahí. El icono dentro de cada anillo indica qué límite es; las horas exactas de reinicio están en la app de la barra de menú.
 
 <p align="center">
   <img src="docs/images/widget-medium-light.png" width="440" alt="Widget mediano en modo claro">
   <img src="docs/images/widget-small-dark.png" width="250" alt="Widget pequeño con sesión y semana">
 </p>
 
-Hay dos tamaños: **mediano** (4 anillos) y **pequeño** (sesión y semana). Ambos se adaptan al modo claro y al oscuro.
+Hay dos tamaños, **pequeño** y **mediano**, y los dos muestran sesión y semana. El mediano deja dos anillos vacíos, como el widget de Baterías. Ambos se adaptan al modo claro y al oscuro.
+
+### Elegir proveedor
+
+El nombre del proveedor aparece arriba del widget, así siempre está claro de quién es el uso que ves. Para cambiarlo: clic derecho en el widget → **Editar "AI Usage"** → **Proveedor**. Para ver varios proveedores, añade un widget por cada uno.
+
+| Proveedor | Estado |
+|---|---|
+| Claude | Disponible |
+| OpenAI | Próximamente (el widget muestra anillos vacíos y "Próximamente") |
 
 ### Barra de menú
 
@@ -46,37 +54,30 @@ Si la sesión de Claude Code caduca, o la app lleva más de 30 minutos sin actua
 
 ## Requisitos
 
-- macOS 15 o posterior
-- **Xcode** completo (App Store), no solo las Command Line Tools. Ábrelo una vez para aceptar la licencia.
-- **XcodeGen**: `brew install xcodegen`
-- **Certificado "Apple Development"**. Sirve una cuenta Apple gratuita:
-  Xcode → Settings → Accounts → `+` → Apple ID → selecciona el equipo → *Manage Certificates…* → `+` → *Apple Development*.
+- macOS 15 Sequoia o posterior
 - **Claude Code** instalado y con sesión iniciada (`claude`). El widget lee esa sesión del Keychain.
 
 ## Instalar
 
-```sh
-git clone <este repo>
-cd widget-ai-usage
-make install
-```
+1. Descarga `AIUsage-<versión>.zip` de la [última release](https://github.com/AlexiMarin/widget-ai-usage/releases/latest).
+2. Descomprímelo y arrastra **AIUsage.app** a **Aplicaciones**.
+3. Ábrela. Debe aparecer `✳︎ N%` en la barra de menú. En el menú, activa **Abrir al iniciar sesión**.
+4. Clic derecho en el escritorio → **Editar widgets** → busca **AI Usage**.
+5. Opcional: clic derecho en el widget → **Editar "AI Usage"** para elegir el proveedor (Claude por defecto).
 
-Esto genera el proyecto, compila con tu certificado e instala `AIUsage.app` en `~/Applications`. Después:
+### El widget no coincide con la barra de menú
 
-1. Debe aparecer `✳︎ N%` en la barra de menú. En el menú, activa **Abrir al iniciar sesión**.
-2. Clic derecho en el escritorio → **Editar widgets** → busca **AI Usage**.
-
-`make check` comprueba solo los requisitos. Si tienes varios certificados de distintos equipos, elige uno con `make install TEAM_ID=XXXXXXXXXX`.
+macOS decide cuándo se redibujan los widgets y limita cuántas veces pueden actualizarse, así que el widget puede ir unos minutos por detrás de la barra de menú. Después de actualizar la app, quita el widget y vuelve a añadirlo para que macOS cargue la versión nueva.
 
 ### Abrir la app de nuevo
 
-Si la cierras, el widget deja de actualizarse. Para volver a abrirla: `⌘ Espacio` → **AI Usage**, o `open ~/Applications/AIUsage.app`.
+Si la cierras, el widget deja de actualizarse. Para volver a abrirla: `⌘ Espacio` → **AI Usage**, o `open -a AIUsage`.
 
 ### Desinstalar
 
 1. En el menú, desactiva **Abrir al iniciar sesión** y pulsa **Salir**.
 2. Quita el widget del escritorio.
-3. Borra la app: `rm -rf ~/Applications/AIUsage.app`
+3. Mueve **AIUsage.app** a la Papelera (está en Aplicaciones, o en `~/Applications` si la compilaste tú).
 
 ## Cómo funciona
 
@@ -97,3 +98,22 @@ Widget (sandbox, sin red)
 - El token solo se guarda en memoria y solo se envía a `api.anthropic.com` por HTTPS. No se escribe en disco ni en logs.
 - La app **nunca renueva la sesión** (eso cerraría tu sesión de Claude Code). Si caduca, se arregla sola al volver a usar Claude Code.
 - Es el mismo endpoint que usa `/usage` en Claude Code. No está documentado y podría cambiar.
+
+## Compilar desde el código
+
+Solo si quieres modificar la app. Necesitas además:
+
+- **Xcode** completo (App Store), no solo las Command Line Tools. Ábrelo una vez para aceptar la licencia.
+- **XcodeGen**: `brew install xcodegen`
+- **Certificado "Apple Development"**. Sirve una cuenta Apple gratuita:
+  Xcode → Settings → Accounts → `+` → Apple ID → selecciona el equipo → *Manage Certificates…* → `+` → *Apple Development*.
+
+```sh
+git clone https://github.com/AlexiMarin/widget-ai-usage.git
+cd widget-ai-usage
+make install
+```
+
+Esto genera el proyecto, compila con tu certificado e instala `AIUsage.app` en `~/Applications`. `make check` comprueba solo los requisitos. Si tienes varios certificados de distintos equipos, elige uno con `make install TEAM_ID=XXXXXXXXXX`.
+
+`make release` genera el zip firmado con Developer ID y notarizado para publicar una release (los pasos previos están en la cabecera de `scripts/release.sh`).
