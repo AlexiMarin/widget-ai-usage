@@ -51,6 +51,5 @@ struct MeterColumn: View {
                 .font(.system(size: 18))
                 .contentTransition(.numericText())
         }
-        .padding(.top, 4)
     }
 }
