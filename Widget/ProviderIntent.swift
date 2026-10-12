@@ -13,14 +13,6 @@ enum AIProvider: String, AppEnum {
         .openai: "OpenAI",
     ]
 
-    /// Plain-text name shown in the widget (no logos).
-    var name: String {
-        switch self {
-        case .claude: "Claude"
-        case .openai: "OpenAI"
-        }
-    }
-
     func meters(in snapshot: UsageSnapshot) -> [UsageMeter] {
         switch self {
         case .claude: snapshot.claude

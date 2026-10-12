@@ -29,7 +29,7 @@ Hay dos tamaños, **pequeño** y **mediano**, y los dos muestran sesión y seman
 
 ### Elegir proveedor
 
-El nombre del proveedor aparece arriba del widget, así siempre está claro de quién es el uso que ves. Para cambiarlo: clic derecho en el widget → **Editar "AI Usage"** → **Proveedor**. Para ver varios proveedores, añade un widget por cada uno.
+Para cambiar el proveedor: clic derecho en el widget → **Editar "AI Usage"** → **Proveedor**. Para ver varios proveedores, añade un widget por cada uno.
 
 | Proveedor | Estado |
 |---|---|

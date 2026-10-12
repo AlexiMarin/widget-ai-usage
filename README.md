@@ -28,7 +28,7 @@ There are two sizes, **small** and **medium**, both showing session and week. Me
 
 ### Choosing a provider
 
-The provider's name appears at the top of the widget, so it's always clear whose usage you're looking at. To change it, right-click the widget → **Edit "AI Usage"** → **Proveedor** (Provider). To watch more than one provider, add one widget per provider.
+To change the provider, right-click the widget → **Edit "AI Usage"** → **Proveedor** (Provider). To watch more than one provider, add one widget per provider.
 
 | Provider | Status |
 |---|---|

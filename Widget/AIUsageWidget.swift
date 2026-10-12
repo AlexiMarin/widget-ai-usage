@@ -35,11 +35,7 @@ struct AIUsageWidgetView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text(entry.provider.name)
-                .font(.system(size: 13, weight: .semibold))
-                .foregroundStyle(.secondary)
-                .padding(.leading, 16)
+        VStack(spacing: 10) {
             HStack(alignment: .top, spacing: 17) {
                 if meters.isEmpty {
                     MeterColumn(meter: nil, placeholderSymbol: "clock")
