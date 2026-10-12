@@ -18,12 +18,16 @@ check:
 gen: check
 	xcodegen generate
 
+# A new build number every time: chronod caches widget descriptors per
+# CFBundleVersion, so a reused number keeps serving the old widget config.
 build: gen
 	xcodebuild -project AIUsage.xcodeproj -scheme AIUsage -configuration Release \
-		-derivedDataPath build -quiet build
+		-derivedDataPath build -quiet build CURRENT_PROJECT_VERSION=$(shell date +%Y%m%d%H%M%S)
 
 install: build
 	pkill -x AIUsage || true
+	# The widget extension outlives the app; without this the desktop keeps rendering the old binary.
+	pkill -x AIUsageWidget || true
 	rm -rf ~/Applications/AIUsage.app
 	mkdir -p ~/Applications
 	cp -R $(APP) ~/Applications/

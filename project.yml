@@ -23,6 +23,8 @@ targets:
       properties:
         LSUIElement: true
         CFBundleDisplayName: AI Usage
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         AppGroup: $(TeamIdentifierPrefix)com.aiusage
     entitlements:
       path: App/AIUsage.entitlements
@@ -42,6 +44,8 @@ targets:
       path: Widget/Info.plist
       properties:
         CFBundleDisplayName: AI Usage
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         AppGroup: $(TeamIdentifierPrefix)com.aiusage
         NSExtension:
           NSExtensionPointIdentifier: com.apple.widgetkit-extension
